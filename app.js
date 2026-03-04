@@ -573,9 +573,6 @@ function updateChart(fromYear, toYear) {
     if (chartEl && chartEl.data) {
         var prevLen = (chartEl.data[0] && chartEl.data[0].y && chartEl.data[0].y.length) ? chartEl.data[0].y.length : 0;
         var nextLen = areas.length;
-
-        // When switching between area view and conference view the number of bars changes;
-        // Plotly.animate can get flaky with length changes, so fall back to react.
         if (prevLen !== nextLen) {
             Plotly.react("chart", [trace], layout, config);
         } else {
