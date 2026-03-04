@@ -67,10 +67,10 @@ footer a:hover {
 }
 
 #date-range {
-    margin-top: 10px;
+    margin-top: 12px;
     margin-bottom: 0;
     display: flex;
-    gap: 14px;
+    gap: 16px;
     flex-wrap: wrap;
     align-items: flex-end;
 }
@@ -80,11 +80,22 @@ footer a:hover {
     margin-bottom: 4px;
     font-weight: 600;
     font-size: 0.9em;
+    color: #1f2d3a;
 }
 
 #date-range select {
-    padding: 5px;
-    width: 180px;
+    padding: 6px 8px;
+    min-width: 170px;
+    border-radius: 6px;
+    border: 1px solid rgba(15, 23, 42, 0.16);
+    background-color: #ffffff;
+    font-size: 0.9em;
+}
+
+#date-range select:focus {
+    outline: none;
+    border-color: #0b5ed7;
+    box-shadow: 0 0 0 2px rgba(11, 94, 215, 0.25);
 }
 
 #date-range .control {
