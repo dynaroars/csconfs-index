@@ -1,6 +1,6 @@
 parent_area,area,abbrv,conference
 AI,Artificial intelligence,ai,AAAI
-AI,Artificial intelligence,ai,KR
+AI,Artificial intelligence,ai,IJCAI
 AI,Computer vision,vision,CVPR
 AI,Computer vision,vision,ECCV
 AI,Computer vision,vision,ICCV
@@ -12,6 +12,7 @@ AI,Natural language processing,nlp,ACL
 AI,Natural language processing,nlp,EMNLP
 AI,Natural language processing,nlp,NAACL
 AI,The Web & information retrieval,inforet,SIGIR
+AI,The Web & information retrieval,inforet,WWW
 Systems,Computer architecture,arch,ASPLOS
 Systems,Computer architecture,arch,HPCA
 Systems,Computer architecture,arch,ISCA
