@@ -1,7 +1,5 @@
 parent_area,area,abbrv,conference
 AI,Artificial intelligence,ai,AAAI
-AI,Artificial intelligence,ai,ICAPS
-AI,Artificial intelligence,ai,IJCAI
 AI,Artificial intelligence,ai,KR
 AI,Computer vision,vision,CVPR
 AI,Computer vision,vision,ECCV
@@ -14,7 +12,6 @@ AI,Natural language processing,nlp,ACL
 AI,Natural language processing,nlp,EMNLP
 AI,Natural language processing,nlp,NAACL
 AI,The Web & information retrieval,inforet,SIGIR
-AI,The Web & information retrieval,inforet,WWW
 Systems,Computer architecture,arch,ASPLOS
 Systems,Computer architecture,arch,HPCA
 Systems,Computer architecture,arch,ISCA
@@ -69,7 +66,6 @@ Interdisciplinary Areas,Computer science education,csed,SIGCSE
 Interdisciplinary Areas,Economics & computation,ecom,EC
 Interdisciplinary Areas,Economics & computation,ecom,WINE
 Interdisciplinary Areas,Human-computer interaction,chi,CHI
-Interdisciplinary Areas,Human-computer interaction,chi,PERCOM
 Interdisciplinary Areas,Human-computer interaction,chi,UbiComp
 Interdisciplinary Areas,Human-computer interaction,chi,UIST
 Interdisciplinary Areas,Robotics,robotics,HRI
