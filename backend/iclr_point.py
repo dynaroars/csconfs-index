@@ -1,7 +1,7 @@
 import gzip
 import xml.etree.ElementTree as ET
 
-CSRANKINGS_PATH = "data/csrankings_march.csv"
+CSRANKINGS_PATH = "data/csrankings.csv"
 AREA_PATH = "data/area.csv"
 DBLP_PATH = "data/dblp.xml.gz"
 
