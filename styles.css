@@ -219,6 +219,65 @@ footer a:hover {
     color: rgba(var(--theme-rgb, 59, 75, 92), 0.88);
 }
 
+.sidebar-controls {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.sidebar-controls button {
+    flex: 1;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    border: 1px solid rgba(15, 23, 42, 0.2);
+    border-radius: 6px;
+    background: #ffffff;
+    color: #1f2d3a;
+    cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s;
+}
+
+.sidebar-controls button:hover {
+    background: #f0f4f8;
+    border-color: rgba(15, 23, 42, 0.35);
+}
+
+.sidebar-controls button:active {
+    background: #e2e8f0;
+}
+
+.filter-checkbox {
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    margin-right: 6px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+#checkboxes .parent-area-row {
+    display: flex;
+    align-items: center;
+}
+
+#checkboxes .area-block > summary {
+    display: flex;
+    align-items: center;
+}
+
+#checkboxes .conference-row {
+    display: flex;
+    align-items: center;
+}
+
+.filter-checkbox:not(:checked) + .parent-area-label,
+.filter-checkbox:not(:checked) + .area-label,
+.filter-checkbox:not(:checked) + .conference-label {
+    opacity: 0.5;
+    text-decoration: line-through;
+}
+
 footer {
     margin-top: 40px;
     padding-top: 20px;
