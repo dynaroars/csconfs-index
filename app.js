@@ -843,46 +843,39 @@ function renderTrendChart(trendData) {
         "Interdisciplinary Areas": "rgb(148, 103, 189)"
     };
 
-    var parentToPointsByYear = {};
-    for (var yrIdx = 0; yrIdx < years.length; yrIdx++) {
-        var yr = years[yrIdx];
-        var parentSums = {};
-        var parentCounts = {};
-        for (var area in areaToPointsByYear) {
-            var pts = areaToPointsByYear[area][yr];
-            if (pts === undefined) continue;
-            var parent = areaToParent[area] || "";
-            if (!parent) continue;
-            parentSums[parent] = (parentSums[parent] || 0) + pts;
-            parentCounts[parent] = (parentCounts[parent] || 0) + 1;
-        }
-        for (var p in parentSums) {
-            if (!parentToPointsByYear[p]) parentToPointsByYear[p] = {};
-            parentToPointsByYear[p][yr] = Math.round((parentSums[p] / parentCounts[p]) * 100) / 100;
-        }
-    }
+    var areas = Object.keys(areaToPointsByYear);
+    areas.sort(function (a, b) {
+        var pa = areaToParent[a] || "";
+        var pb = areaToParent[b] || "";
+        var ia = parentOrder.indexOf(pa);
+        var ib = parentOrder.indexOf(pb);
+        if (ia !== ib) return ia - ib;
+        return a.localeCompare(b);
+    });
 
     var traces = [];
-    for (var i = 0; i < parentOrder.length; i++) {
-        var parent = parentOrder[i];
-        if (!parentToPointsByYear[parent]) continue;
+    for (var i = 0; i < areas.length; i++) {
+        var area = areas[i];
+        var ptsByYear = areaToPointsByYear[area];
         var x = [];
         var y = [];
         for (var j = 0; j < years.length; j++) {
             var yr = years[j];
-            if (parentToPointsByYear[parent][yr] !== undefined) {
+            if (ptsByYear[yr] !== undefined) {
                 x.push(yr);
-                y.push(parentToPointsByYear[parent][yr]);
+                y.push(Math.round(ptsByYear[yr] * 100) / 100);
             }
         }
         if (x.length === 0) continue;
 
+        var parent = areaToParent[area] || "";
         var color = colorMap[parent] || "rgb(150, 150, 150)";
 
         traces.push({
             type: "scatter",
             mode: "lines+markers",
-            name: parent,
+            name: area,
+            legendgroup: parent,
             x: x,
             y: y,
             line: { color: color, width: 2.5 },
@@ -947,7 +940,8 @@ function renderTrendChart(trendData) {
             y: 1,
             xanchor: "left",
             yanchor: "top",
-            font: { size: 11, family: "Inter, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif" },
+            font: { size: traces.length > 15 ? 9 : 11, family: "Inter, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif" },
+            tracegroupgap: traces.length > 15 ? 2 : 5,
             bgcolor: "rgba(255,255,255,0.8)",
             bordercolor: "rgba(0,0,0,0.1)"
         },
