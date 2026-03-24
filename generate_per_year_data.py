@@ -1,6 +1,8 @@
 import json
 import os
 import sys
+import time
+from urllib.parse import urlencode
 from urllib.request import urlopen
 
 from backend.iclr_point import (
@@ -11,6 +13,66 @@ from backend.iclr_point import (
 )
 
 CSRANKINGS_URL = "https://raw.githubusercontent.com/emeryberger/CSRankings/gh-pages/csrankings.csv"
+CITATION_CACHE_PATH = "data/openalex_citation_cache.json"
+OPENALEX_MAILTO = os.environ.get("OPENALEX_MAILTO", "no-reply@example.com")
+OPENALEX_BATCH_SIZE = 50
+
+def load_citation_cache():
+    if not os.path.exists(CITATION_CACHE_PATH):
+        return {}
+    with open(CITATION_CACHE_PATH, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def save_citation_cache(cache):
+    os.makedirs(os.path.dirname(CITATION_CACHE_PATH), exist_ok=True)
+    with open(CITATION_CACHE_PATH, "w", encoding="utf-8") as f:
+        json.dump(cache, f, indent=2, sort_keys=True)
+
+
+def fetch_openalex_citation_batch(dois):
+    if not dois:
+        return {}
+    filter_value = "|".join(dois)
+    params = {
+        "filter": f"doi:{filter_value}",
+        "per-page": 200,
+        "select": "doi,cited_by_count",
+        "mailto": OPENALEX_MAILTO,
+    }
+    url = "https://api.openalex.org/works?" + urlencode(params)
+    with urlopen(url, timeout=60) as response:
+        payload = json.loads(response.read().decode("utf-8"))
+
+    result = {}
+    for work in payload.get("results", []):
+        doi_raw = work.get("doi")
+        if not doi_raw:
+            continue
+        doi_str = doi_raw.strip().lower()
+        if doi_str.startswith("https://doi.org/"):
+            doi_str = doi_str.split("https://doi.org/", 1)[1]
+        if not doi_str.startswith("10."):
+            continue
+        result[doi_str] = int(work.get("cited_by_count") or 0)
+    return result
+
+
+def build_citation_lookup(paper_records):
+    cache = load_citation_cache()
+    all_dois = sorted(
+        set(p["doi"].strip().lower() for p in paper_records if p.get("doi"))
+    )
+    missing = [d for d in all_dois if d not in cache]
+    for i in range(0, len(missing), OPENALEX_BATCH_SIZE):
+        batch = missing[i : i + OPENALEX_BATCH_SIZE]
+        fetched = fetch_openalex_citation_batch(batch)
+        for doi in batch:
+            cache[doi] = int(fetched.get(doi, 0))
+        time.sleep(0.15)
+    save_citation_cache(cache)
+    return cache
+
 
 def fetch_csrankings_csv():
     os.makedirs(os.path.dirname(CSRANKINGS_PATH), exist_ok=True)
