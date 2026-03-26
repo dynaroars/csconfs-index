@@ -671,7 +671,20 @@ function updateChart(fromYear, toYear) {
             var parentOrder= ["AI", "Systems", "Theory", "Interdisciplinary Areas"];
             var rows = [];
             if (conferenceView) {
-                rows = data;
+                rows = data.map(function(r) {
+                    return {
+                        label: r.label,
+                        area: r.area,
+                        parent: r.parent,
+                        publication_count: r.publication_count,
+                        faculty_count: r.faculty_count,
+                        citation_count: r.citation_count || 0,
+                        age_adjusted_citation_count: r.age_adjusted_citation_count || 0,
+                        iclr_points: r.iclr_points,
+                        impact_points: r.impact_points || 0,
+                        combined_points: r.combined_points || 0
+                    };
+                });
             } else {
                 rows = data.map(function(r) {
                     return {
