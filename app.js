@@ -11,7 +11,6 @@ function getMetricMode() {
 
 function getMetricLabel(metricMode) {
     if (metricMode === "impact") return "Impact";
-    if (metricMode === "combined") return "Combined";
     return "Effort";
 }
 
@@ -378,9 +377,6 @@ function computeICLRPoints(fromYear, toYear, baselineArea) {
             var ageAdjPerPub = ageAdjustedCitationCount / publicationCount;
             impactPoints = ageAdjPerPub / baselineAgeAdjPerPub;
         }
-        var combinedPoints = (iclrPoints > 0 && impactPoints > 0)
-            ? Math.sqrt(iclrPoints * impactPoints)
-            : 0;
         var parentArea = perYearData.area_to_parent[area];
         
         results.push({
@@ -391,8 +387,7 @@ function computeICLRPoints(fromYear, toYear, baselineArea) {
             age_adjusted_citation_count: Math.round(ageAdjustedCitationCount * 100) / 100,
             faculty_count: Math.round(fractionalFacultyCount * 100) / 100,
             iclr_points: Math.round(iclrPoints * 100) / 100,
-            impact_points: Math.round(impactPoints * 100) / 100,
-            combined_points: Math.round(combinedPoints * 100) / 100
+            impact_points: Math.round(impactPoints * 100) / 100
         });
     }
     
@@ -565,9 +560,6 @@ function computeConferenceICLRPoints(fromYear, toYear, baselineConference) {
             var ageAdjPerPub = ageAdjustedCitationCount / publicationCount;
             impactPoints = ageAdjPerPub / baselineAgeAdjPerPub;
         }
-        var combinedPoints = (iclrPoints > 0 && impactPoints > 0)
-            ? Math.sqrt(iclrPoints * impactPoints)
-            : 0;
         var area = conferenceToArea[conf];
         var parentArea = area ? perYearData.area_to_parent[area] : null;
 
@@ -580,8 +572,7 @@ function computeConferenceICLRPoints(fromYear, toYear, baselineConference) {
             age_adjusted_citation_count: Math.round(ageAdjustedCitationCount * 100) / 100,
             faculty_count: Math.round(fractionalFacultyCount * 100) / 100,
             iclr_points: Math.round(iclrPoints * 100) / 100,
-            impact_points: Math.round(impactPoints * 100) / 100,
-            combined_points: Math.round(combinedPoints * 100) / 100
+            impact_points: Math.round(impactPoints * 100) / 100
         });
     }
 
@@ -683,8 +674,7 @@ function updateChart(fromYear, toYear) {
                         citation_count: r.citation_count || 0,
                         age_adjusted_citation_count: r.age_adjusted_citation_count || 0,
                         iclr_points: r.iclr_points,
-                        impact_points: r.impact_points || 0,
-                        combined_points: r.combined_points || 0
+                        impact_points: r.impact_points || 0
                     };
                 });
             }
@@ -705,7 +695,6 @@ function updateChart(fromYear, toYear) {
                 areas.push(row.label);
                 var value = row.iclr_points;
                 if (metricMode === "impact") value = row.impact_points || 0;
-                if (metricMode === "combined") value = row.combined_points || 0;
                 values.push(value);
                 parents.push(row.parent);
                 customdata.push([
@@ -715,8 +704,7 @@ function updateChart(fromYear, toYear) {
                     row.citation_count || 0,
                     row.age_adjusted_citation_count || 0,
                     row.iclr_points || 0,
-                    row.impact_points || 0,
-                    row.combined_points || 0
+                    row.impact_points || 0
                 ]);
             };
     
@@ -755,7 +743,6 @@ function updateChart(fromYear, toYear) {
             'Age-adjusted citations: %{customdata[4]:.2f}<br>' +
             'Effort points: %{customdata[5]:.2f}<br>' +
             'Impact points: %{customdata[6]:.2f}<br>' +
-            'Combined points: %{customdata[7]:.2f}<br>' +
             metricLabel + ': %{x:.2f}<br>' +
             'Baseline: ' + baselineConference + '<br>' +
             '<extra></extra>';
@@ -768,7 +755,6 @@ function updateChart(fromYear, toYear) {
             'Age-adjusted citations: %{customdata[4]:.2f}<br>' +
             'Effort points: %{customdata[5]:.2f}<br>' +
             'Impact points: %{customdata[6]:.2f}<br>' +
-            'Combined points: %{customdata[7]:.2f}<br>' +
             metricLabel + ': %{x:.2f}<br>' +
             'Baseline: ' + baselineArea + '<br>' +
             '<extra></extra>';
