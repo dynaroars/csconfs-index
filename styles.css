@@ -195,16 +195,18 @@ footer a:hover {
     display: none;
 }
 
+/* U+25B8 / U+25BE — Unicode escapes avoid mojibake if file encoding shifts */
 #checkboxes .area-block > summary::before {
-    content: "â–¸";
+    content: "\25B8";
     width: 1em;
+    flex-shrink: 0;
     display: inline-block;
     color: rgba(var(--theme-rgb, 20, 39, 58), 0.85);
     transform: translateY(-0.5px);
 }
 
 #checkboxes .area-block[open] > summary::before {
-    content: "â–¾";
+    content: "\25BE";
 }
 
 #checkboxes .area-label {
