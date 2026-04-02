@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extending ICLR Points — Phu Le</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [["\\(", "\\)"]],
+                displayMath: [["\\[", "\\]"]]
+            }
+        };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body class="paper-page">
+    <h1 class="paper-title">Extending ICLRPoints: An Interactive System for Analyzing Research Effort</h1>
+
+    <div class="intro-text paper-intro">
+        <p class="paper-nav"><a href="index.html">&larr; Back to chart</a></p>
+        <p class="paper-meta"><span class="paper-author">Phu Le</span> · <span class="paper-date">March 9, 2026</span></p>
+    </div>
+
+    <main class="paper-body">
+        <h2>Abstract</h2>
+        <p>ICLRPoints is a metric that is used to analyze research effort based on conference publications in top-tier conferences. The original system provided only basic tools to view the publication activity and had limited interactive tools. In this project, I rebuilt ICLRPoints using updated data and added more interactive visualizations that make it easier to analyze publication activity across conferences and research areas. The result provides a flexible way to analyze research effort and compare publication activity over time.</p>
+
+        <h2>Introduction</h2>
+        <p>Conference publications are the primary way research is shared among the computer science community. Tools such as CSRankings and ICLRPoints provide methods for analyzing research output and effort by counting publications from top-tier conferences.</p>
+        <p>The original ICLRPoints project assigns scores to authors based on publications in these conferences. While this approach is useful, the website offers limited tools for exploring trends or interactively analyzing publication data.</p>
+        <p>This project extends the ICLRPoints framework by preserving the original methodology while introducing interactive visualization tools.</p>
+
+        <h2>Data Sources</h2>
+        <p>The system uses two main data sources: the DBLP bibliographic dataset and the CSRankings repository. DBLP provides comprehensive data on publications, including authors, titles, conferences, and years. CSRankings provides the list of top conferences and how they are grouped into research areas. Both of these datasets are found in the public CSRankings GitHub repository.</p>
+
+        <h2>Methodology</h2>
+        <p>The DBLP dataset is processed to find conference publications that match the CSRankings list of conferences. For each publication, the system extracts the authors, conference name, and publication year. They are then grouped to compute statistics such as the number of publications per author, the number of publications in each conference over time, and trends by research area.</p>
+        <p>To support the added interactive tools, the processed data is stored in a format that allows fast queries. ICLRPoints are computed by aggregating publication counts and fractional faculty over selected areas/conferences, then normalizing by a chosen baseline.</p>
+        <p><strong>Assumption 1.</strong> Faculty members across different research areas devote roughly similar amounts of research effort per year.</p>
+        <p><strong>Assumption 2.</strong> A large portion of academic research effort is shown in publications at top-tier conferences.</p>
+
+        <h3>ICLRPoints Computation</h3>
+        <p>The ICLRPoints metric estimates the average effort required to produce a publication in a research area. The total effort is approximated by the number of faculty in the area, while the total output is measured by the number of publications in top conferences.</p>
+        <p>The average effort required to produce a publication in an area is computed as</p>
+        <p>\[
+        \text{Average effort} =
+        \frac{\text{Total faculty}}{\text{Total number of publications}}
+        \]</p>
+        <p>\[
+        \text{ICLRPoints} =
+        \frac{\text{Average effort}}
+        {\text{Average effort of selected baseline}}
+        \]</p>
+        <p>A higher ICLRPoints value indicates that producing a publication in that area requires more research effort on average.</p>
+
+        <h3>Examples</h3>
+        <p><strong>Example 1: Machine Learning (baseline).</strong></p>
+        <p>Suppose Machine Learning has 100 faculty and 1000 publications across conferences such as ICLR, ICML, and NeurIPS.</p>
+        <p>\[
+        \text{Average effort} = \frac{100}{1000} = 0.1
+        \]</p>
+        <p>Since Machine Learning is used as the baseline area, its ICLRPoints value is 1.</p>
+
+        <p><strong>Example 2: Programming Languages (PLDI).</strong></p>
+        <p>Suppose Programming Languages has 40 faculty and 80 publications across conferences such as PLDI and POPL.</p>
+        <p>\[
+        \text{Average effort} = \frac{40}{80} = 0.5
+        \]</p>
+        <p>\[
+        \text{ICLRPoints} = \frac{0.5}{0.1} = 5
+        \]</p>
+        <p>This means that producing a paper in a Programming Languages conference such as PLDI requires about five times more research effort per publication than producing a paper in a Machine Learning conference such as ICLR.</p>
+
+        <h2>System Implementation</h2>
+        <p>The system consists of two main components: a backend data pipeline and a web-based user interface.</p>
+        <p>The backend pipeline processes DBLP records, filters publications to the selected conferences, and computes statistics about publications. It is designed to be re-runnable as new DBLP and CSRankings snapshots become available, keeping the dataset up to date.</p>
+        <p>The web interface shows these statistics through a set of interactive visualizations. Users can filter by conference, research areas, year ranges, and toggle between area-level, conference-level, and trend views.</p>
+
+        <h2>Differences from the Original ICLRPoints</h2>
+        <p>The main improvements over the original ICLRPoints system include:</p>
+        <ul>
+            <li><strong>Interactive filters</strong>: Users can select or deselect parent areas, areas, and conferences using checkbox controls, with options to select or deselect all.</li>
+            <li><strong>Year-range controls</strong>: Users can choose a start year and end year to compute results for a custom time period.</li>
+            <li><strong>Multiple views of the metric</strong>:
+                <ul>
+                    <li><em>Areas view</em>: ICLRPoints by research areas</li>
+                    <li><em>Conference view</em>: ICLRPoints by individual conference</li>
+                    <li><em>Trend view</em>: ICLRPoints over time for each research area</li>
+                </ul>
+            </li>
+            <li><strong>Baseline selection</strong>: Users can select a baseline area or conference to normalize the points.</li>
+            <li><strong>Detailed hover information</strong>: Graph tooltips show faculty count, publication count, and ICLRPoints values.</li>
+        </ul>
+
+        <h2>Future Work</h2>
+        <p>Future improvements &amp; features:</p>
+        <ul>
+            <li><strong>Institution and author views:</strong> Add views that allow users to compare individual researchers and departments, similar to the CSRankings system.</li>
+            <li><strong>Citation-based metric:</strong> Incorporate citation data to measure research impact in addition to effort. Though, more recent publications typically have fewer citations than older ones.</li>
+            <li><strong>Automated updates:</strong> Build a system that automatically updates the dataset and stores versioned results so they can be reproduced over time.</li>
+        </ul>
+
+        <h2>Conclusion</h2>
+        <p>This project extends the ICLRPoints system by rebuilding the data pipeline with updated data and adding interactive visualization tools to better analyze publication data across conferences and research areas. The result provides a flexible and easy to use tools for analyzing research effort across conferences and research areas.</p>
+    </main>
+
+    <footer>
+        <p>The data comes from <a href="https://csrankings.org" target="_blank" rel="noopener">CSRankings</a>. Code available on <a href="https://github.com/dynaroars/iclrpoints" target="_blank" rel="noopener">GitHub</a>.</p>
+    </footer>
+</body>
+</html>

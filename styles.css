@@ -196,7 +196,7 @@ footer a:hover {
 }
 
 #checkboxes .area-block > summary::before {
-    content: "▸";
+    content: "â–¸";
     width: 1em;
     display: inline-block;
     color: rgba(var(--theme-rgb, 20, 39, 58), 0.85);
@@ -204,7 +204,7 @@ footer a:hover {
 }
 
 #checkboxes .area-block[open] > summary::before {
-    content: "▾";
+    content: "â–¾";
 }
 
 #checkboxes .area-label {
@@ -287,3 +287,92 @@ footer {
     font-size: 0.9em;
 }
 
+/* Report page (paper.html) — matches site typography and intro strip */
+.paper-page h1.paper-title {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 12px;
+    font-size: clamp(1.25rem, 2.5vw, 1.65rem);
+    font-weight: 700;
+    line-height: 1.3;
+    color: #15212d;
+}
+
+.paper-page .paper-intro .paper-nav {
+    margin: 0 0 6px;
+    font-size: 0.95em;
+}
+
+.paper-page .paper-intro .paper-nav a {
+    color: #0b5ed7;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.paper-page .paper-intro .paper-nav a:hover {
+    text-decoration: underline;
+}
+
+.paper-page .paper-intro .paper-meta {
+    margin: 0;
+    font-size: 0.95em;
+    color: #3d5266;
+}
+
+.paper-page .paper-intro .paper-author {
+    font-weight: 600;
+    color: #1f2d3a;
+}
+
+.paper-body {
+    max-width: 1200px;
+    margin: 0 auto 32px;
+    padding: 4px 4px 8px;
+    line-height: 1.65;
+    color: #1f2d3a;
+}
+
+.paper-body h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 0.65rem;
+    padding-bottom: 0.35rem;
+    border-bottom: 2px solid rgba(59, 104, 156, 0.35);
+    color: #15212d;
+}
+
+.paper-body h2:first-of-type {
+    margin-top: 0.5rem;
+}
+
+.paper-body h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-top: 1.35rem;
+    margin-bottom: 0.5rem;
+    color: #1f2d3a;
+}
+
+.paper-body p {
+    margin: 0.65em 0;
+}
+
+.paper-body ul {
+    margin: 0.5em 0 1em;
+    padding-left: 1.35em;
+}
+
+.paper-body li {
+    margin: 0.4em 0;
+}
+
+.paper-body li ul {
+    margin-top: 0.35em;
+    margin-bottom: 0.35em;
+}
+
+.paper-body mjx-container[display="true"] {
+    margin: 0.85em 0 !important;
+}
