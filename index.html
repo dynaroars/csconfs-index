@@ -27,6 +27,15 @@
             </div>
 
             <div class="control">
+                <label for="metric-mode">Metric:</label>
+                <select id="metric-mode" title="Choose displayed metric">
+                    <option value="effort" selected>Effort</option>
+                    <option value="impact">Impact</option>
+                    <option value="combined">Combined</option>
+                </select>
+            </div>
+
+            <div class="control">
                 <label for="baseline-dropbox">Baseline:</label>
                 <div class="baseline-row">
                     <select id="baseline-dropbox"></select>
@@ -39,10 +48,6 @@
                         <input type="checkbox" id="trend-view-toggle">
                         <span>Trend</span>
                     </label>
-                    <select id="metric-mode" title="Choose displayed metric">
-                        <option value="effort" selected>Effort</option>
-                        <option value="impact">Impact (age-adjusted citations)</option>
-                    </select>
                 </div>
             </div>
         </div>
