@@ -2,9 +2,7 @@
 
 `csconfs-index` compares CS conferences/areas by publication effort using CSRankings + DBLP-style venue groupings.
 
-This project was inspired by the **ICLRPoints** work:
-- Website: https://iclrpoints.com/
-- Paper (arXiv): https://arxiv.org/abs/2503.16623
+This project was inspired by the [**ICLRPoints**]( https://iclrpoints.com/) work ([arXiv](https://arxiv.org/abs/2503.16623))
 
 Data sources used here include CSRankings and DBLP; venues are defined in `data/area.csv` (CSRankings + CORE A*).
 
